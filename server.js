@@ -424,6 +424,18 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'MTC Backend is running!' });
 });
 
+// TEMPORARY: Debug endpoint to check users (REMOVE AFTER USE!)
+app.get('/api/debug/users', (req, res) => {
+  db.all('SELECT email, name FROM users', (err, rows) => {
+    if (err) {
+      console.error('Error checking users:', err);
+      res.status(500).json({ error: 'Failed to check users' });
+    } else {
+      res.json({ users: rows, count: rows.length });
+    }
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 MTC Backend running on http://localhost:${PORT}`);
