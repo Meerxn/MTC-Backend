@@ -424,6 +424,19 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'MTC Backend is running!' });
 });
 
+// TEMPORARY: Admin endpoint to clear users (REMOVE AFTER USE!)
+app.delete('/api/admin/clear-users-again', (req, res) => {
+  db.run('DELETE FROM users', (err) => {
+    if (err) {
+      console.error('Error clearing users:', err);
+      res.status(500).json({ error: 'Failed to clear users' });
+    } else {
+      console.log('🗑️  All users cleared from database');
+      res.json({ message: 'All users cleared successfully' });
+    }
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 MTC Backend running on http://localhost:${PORT}`);
